@@ -39,7 +39,7 @@ This segmentation ensures that backend services are not directly exposed to the 
 
 Instead of NGINX, Azure-native load balancing services are used.
 
-### Option 1: Azure Application Gateway (Layer 7)
+### Azure Application Gateway 
 
 **Azure Application Gateway** is deployed as the primary HTTP/HTTPS load balancer.
 
