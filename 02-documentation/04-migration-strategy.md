@@ -1,2 +1,8 @@
 ## Migration Strategy
-The migration follows a phased approach: on-prem deployment, lift-and-shift to IaaS, and re-architecture to PaaS. This minimizes risk while enabling gradual modernization and performance optimization.
+The migration adopts a phased approach consisting of three stages: on-premises deployment, lift-and-shift to Infrastructure as a Service (IaaS), and re-architecture to Platform as a Service (PaaS). This strategy minimizes operational risk, ensures business continuity, and allows for incremental modernization while continuously optimizing performance, scalability, and cost.
+
+The primary driver for cloud adoption is cost efficiency. Maintaining on-premises infrastructure is capital-intensive, requiring significant upfront investment in hardware procurement, data center space, power and cooling, physical security, and ongoing maintenance. In addition, operational expenses increase due to the need for specialized personnel, including system administrators, server administrators, network engineers, and DevOps staff.
+
+The initial lift-and-shift to IaaS provides a familiar environment that closely mirrors the existing on-premises architecture, enabling a smoother transition with minimal application refactoring. This phase reduces immediate capital expenditure while allowing the organization to validate cloud connectivity, security controls, and operational processes.
+
+The final phase focuses on re-architecting the application to PaaS, which significantly reduces the operational burden associated with managing underlying infrastructure. By leveraging managed platform services, the organization benefits from built-in scalability, high availability, automated patching, and improved resilience. This approach lowers long-term costs, accelerates deployment cycles, and allows technical teams to shift focus from infrastructure maintenance to application development, optimization, and innovation.
