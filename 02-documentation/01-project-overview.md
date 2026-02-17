@@ -45,7 +45,7 @@ The application follows a standard three-tier architecture with additional messa
    On initial login or registration, user credentials are securely stored in the MySQL relational database. MySQL serves as the system of record, ensuring data persistence and transactional integrity.
 
 5. #### Caching Layer (Memcached)
-   Frequently accessed data, such as authenticated session information or user profile data, is cached in **Memcached. This reduces repeated database queries, lowers latency, and improves overall application performance.
+   Frequently accessed data, such as authenticated session information or user profile data, is cached in Memcached. This reduces repeated database queries, lowers latency, and improves overall application performance.
 
 6. #### Asynchronous Messaging (RabbitMQ)
    RabbitMQ facilitates asynchronous communication between the web application and backend processing components. It manages message queues that decouple frontend request handling from backend task execution. This improves scalability and fault tolerance by ensuring tasks are processed reliably without blocking user-facing operations.
@@ -99,3 +99,5 @@ The result is a fully functional, production-like multi-tier application environ
 * **Reduced Deployment Risk:** Enables thorough validation before cloud migration.
 
 This implementation demonstrates competencies in virtualization, service orchestration, Linux administration, reverse proxy configuration, Java application deployment, messaging systems, caching strategies, and infrastructure automation.
+
+### AWS-deployment.
