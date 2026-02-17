@@ -52,11 +52,6 @@ It provides:
 * Health probes for backend instances
 
 Application Gateway distributes incoming user traffic across multiple Tomcat instances deployed in a scale set.
-
-### Option 2: Azure Load Balancer (Layer 4)
-
-For simpler TCP/UDP load balancing scenarios, **Azure Load Balancer** can be used. However, for web-based workloads, Application Gateway is typically preferred due to Layer 7 intelligence.
-
 ---
 
 ## Auto Scaling – Virtual Machine Scale Sets
