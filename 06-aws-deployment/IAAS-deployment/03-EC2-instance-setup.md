@@ -145,7 +145,7 @@ This configuration ensures that caching services are fully provisioned automatic
 
 ---
 
-# RabbitMQ EC2 Instance Configuration
+## RabbitMQ EC2 Instance Configuration
 
 The RabbitMQ instance is responsible for handling asynchronous messaging between application components. This decouples frontend request handling from backend processing, improving scalability and reliability.
 
@@ -210,7 +210,7 @@ This automated approach ensures consistent message broker deployment aligned wit
 
 ---
 
-# Apache Tomcat EC2 Instance Configuration
+## Apache Tomcat EC2 Instance Configuration
 
 The Tomcat EC2 instance hosts the Java-based web application and serves as the application-tier compute layer.
 
