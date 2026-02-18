@@ -4,9 +4,10 @@ The network security architecture is designed following the principle of least p
 
 ---
 
-## Network Security Groups (NSGs)
+## CREATE NETWORK SECURITY GROUPS (NSGs)
+The following security groups are created.
 
-### 1. Application Security Group NSG
+### 1. Application Gateway NSG (Named APGNSG)
 
 The Application Gateway Network Security Group is configured to control inbound traffic from the public internet.
 
@@ -19,7 +20,7 @@ This NSG ensures that only web traffic is exposed publicly while preventing dire
 
 ---
 
-### 2. Web Application NSG
+### 2. Web Application NSG (Named WEBAPPNSG)
 
 The Web Application Network Security Group is attached to the virtual machines running the Apache Tomcat service.
 
@@ -32,7 +33,7 @@ This configuration prevents direct internet exposure of the application servers 
 
 ---
 
-### 3. Backend Services NSG
+### 3. Backend Services NSG (Named BCKNDNSG)
 
 The Backend Network Security Group is associated with database and supporting service virtual machines. Access is tightly restricted to application-tier resources only.
 
@@ -42,6 +43,7 @@ The Backend Network Security Group is associated with database and supporting se
 * **TCP 11211 (Memcached)** – Allowed from the Web/Application subnet or corresponding NSG.
 * **TCP 5672 (RabbitMQ)** – Allowed from the Web/Application subnet or corresponding NSG.
 * **TCP 22 (SSH)** – Restricted to the administrator’s public IP address for controlled management access.
+* **All Traffic (Any Protocol, Any Port)** – Permitted within the Backend Services security group only, allowing internal service-to-service communication among backend servers while preventing access from external or untrusted sources.
 
 Backend services are not exposed to the public internet under any circumstance. All traffic is limited to trusted internal sources to maintain isolation and minimize the attack surface.
 

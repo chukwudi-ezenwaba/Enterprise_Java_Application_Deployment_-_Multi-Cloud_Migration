@@ -4,9 +4,10 @@ The network security architecture is designed following the principle of least p
 
 ---
 
-##  Security Groups (SGs)
+## Create Security Groups (SGs)
+The following security groups are created.
 
-### 1.load Balancer SG
+### 1.load Balancer SG (Named SLSG)
 
 The load balancer SG is configured to control inbound traffic from the public internet.
 
@@ -19,7 +20,7 @@ This SG ensures that only web traffic is exposed publicly while preventing direc
 
 ---
 
-### 2. Web Application SG
+### 2. Web Application SG (Named WEBAPPSG)
 
 The Web Application Security Group is attached to the EC2 instances running Tomcat service.
 
@@ -32,7 +33,7 @@ This configuration prevents direct internet exposure of the application servers 
 
 ---
 
-### 3. Backend Services SG
+### 3. Backend Services SG (Named BCKNDSG)
 
 The Backend Security Group is associated with database and supporting service EC2 instance tightly restricted to application-tier resources only.
 
@@ -42,6 +43,7 @@ The Backend Security Group is associated with database and supporting service EC
 * **TCP 11211 (Memcached)** – Allowed from the Web/Application subnet or corresponding SG.
 * **TCP 5672 (RabbitMQ)** – Allowed from the Web/Application subnet or corresponding SG.
 * **TCP 22 (SSH)** – Restricted to the administrator’s public IP address for controlled management access.
+* **All Traffic (Any Protocol, Any Port)** – Permitted within the Backend Services security group only, allowing internal service-to-service communication among backend servers while preventing access from external or untrusted sources.
 
 Backend services are not exposed to the public internet under any circumstance. All traffic is limited to trusted internal sources to maintain isolation and minimize the attack surface.
 
@@ -56,4 +58,11 @@ Backend services are not exposed to the public internet under any circumstance. 
 
 This structured SG implementation enforces traffic segmentation, reduces lateral movement risk, and aligns with cloud security best practices for multi-tier application architectures.
 
+### Create Key Pairs 
+Create key pairs with following details.
 
+To securly access the EC2 instances, key pairs are created. To create key pairs, define the following parameters 
+
+* Name **web-app-key1**
+* Key pair type **RSA**
+* Private key file format **.pem** (This format is preferred for terminal or gitbash, if using putty for ssh, **.ppk** is prefered).
