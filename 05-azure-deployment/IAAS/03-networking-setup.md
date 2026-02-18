@@ -4,7 +4,37 @@ The network security architecture is designed following the principle of least p
 
 ---
 
-## CREATE NETWORK SECURITY GROUPS (NSGs)
+## Create Virtual Network (Vnet)
+
+## Virtual Network Architecture
+
+All compute resources are deployed inside a dedicated Azure Virtual Network to enforce proper segmentation and secure traffic flow.
+
+* **VNet Name:** `Webappvnet`
+
+### Subnet Configuration
+
+* **Application Gateway Subnet:** `AGsubnet`
+
+  * Dedicated subnet for Azure Application Gateway
+  * Public-facing entry point
+  * Handles HTTPS traffic and Layer 7 routing
+
+* **Web Application Subnet:** `Webappsubnet`
+
+  * Hosts Apache Tomcat virtual machines
+  * Accessible only from Application Gateway
+
+* **Backend Subnet:** `bckndsubnet`
+
+  * Hosts MySQL, RabbitMQ, and Memcached virtual machines
+  * Restricted to internal application-tier communication only
+
+Each subnet is protected using Network Security Groups (NSGs) aligned with least-privilege access control principles.
+
+---
+
+## Create Network Security Groups (NSGs)
 The following security groups are created.
 
 ### 1. Application Gateway NSG (Named APGNSG)
