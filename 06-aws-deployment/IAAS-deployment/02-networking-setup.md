@@ -20,7 +20,7 @@ This SG ensures that only web traffic is exposed publicly while preventing direc
 
 ---
 
-### 2. Web Application SG (Named WEBAPPSG)
+### 2. Web Application SG (Named WEBAPP01SG)
 
 The Web Application Security Group is attached to the EC2 instances running Tomcat service.
 
