@@ -1,16 +1,4 @@
-Excellent — below is the enhanced, production-grade Azure deployment document with:
-
-* Network Security Group (NSG) considerations
-* Private Endpoint configuration for Storage
-* Lifecycle management policies
-* Redundancy (LRS vs ZRS vs GRS discussion)
-* Additional security hardening
-
-CI/CD integration has been intentionally excluded as requested.
-
----
-
-# Build and Secure Deployment of Application Artifact – Azure (Canada Central)
+## Build and Secure Deployment of Application Artifact – Azure (Canada Central)
 
 This document outlines a production-aligned deployment architecture for hosting a Java-based web application on an Azure Virtual Machine running Apache Tomcat. The application artifact is built locally using Maven and securely stored in Azure Blob Storage. The Virtual Machine retrieves the artifact using Managed Identity authentication, eliminating the need for static credentials.
 
@@ -18,7 +6,7 @@ All resources are deployed in the **Canada Central** region to ensure geographic
 
 ---
 
-# 1. Resource Organization
+## 1. Resource Organization
 
 ## Resource Group
 
@@ -31,7 +19,7 @@ Centralizing resources within a single resource group enables simplified lifecyc
 
 ---
 
-# 2. Application Build Process
+## 2. Application Build Process
 
 The application is compiled locally using:
 
@@ -63,7 +51,7 @@ Before building, backend configurations are updated to reference internal Azure 
 
 ---
 
-# 3. Azure Storage Account – Secure Artifact Repository
+## 3. Azure Storage Account – Secure Artifact Repository
 
 ## Storage Account Configuration
 
@@ -97,7 +85,7 @@ This ensures artifacts are accessible only through authenticated Azure identitie
 
 ---
 
-# 4. Storage Security Hardening
+## 4. Storage Security Hardening
 
 To align with enterprise security standards, additional configurations are implemented:
 
@@ -138,7 +126,7 @@ This assigns a private IP address to the storage account within the Virtual Netw
 
 ---
 
-# 5. Lifecycle Management Policy
+## 5. Lifecycle Management Policy
 
 Blob lifecycle management reduces long-term storage costs and enforces governance.
 
@@ -158,7 +146,7 @@ This supports operational efficiency and cost optimization.
 
 ---
 
-# 6. Azure Virtual Machine Configuration
+## 6. Azure Virtual Machine Configuration
 
 ## VM Details
 
@@ -196,7 +184,7 @@ The NSG associated with the VM subnet includes:
 
 ---
 
-# 7. Managed Identity Configuration
+## 7. Managed Identity Configuration
 
 To eliminate credential management risks:
 
@@ -227,7 +215,7 @@ This grants read-only access to artifacts, following least privilege principles.
 
 ---
 
-# 8. Secure Artifact Upload from Local Machine
+## 8. Secure Artifact Upload from Local Machine
 
 Authenticate:
 
@@ -248,7 +236,7 @@ az storage blob upload \
 
 ---
 
-# 9. Deployment on Azure VM
+## 9. Deployment on Azure VM
 
 ## Step 1 – Connect to VM
 
@@ -317,7 +305,7 @@ systemctl start tomcat10
 
 ---
 
-# 10. Optional Production Enhancements
+## 10. Optional Production Enhancements
 
 * Enable Azure Monitor and Log Analytics
 * Enable Microsoft Defender for Cloud
@@ -327,7 +315,7 @@ systemctl start tomcat10
 
 ---
 
-# End-to-End Architecture Overview
+## End-to-End Architecture Overview
 
 1. Artifact built locally using Maven
 2. Artifact uploaded to Azure Blob Storage (Canada Central)
