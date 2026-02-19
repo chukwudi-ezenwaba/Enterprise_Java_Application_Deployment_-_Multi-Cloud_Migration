@@ -272,19 +272,6 @@ Restart service:
 ```bash
 systemctl start tomcat10
 ```
-
----
-
-## 9. Optional Production Enhancements
-
-* Enable Azure Monitor and Log Analytics
-* Enable Microsoft Defender for Cloud
-* Configure Backup for VM
-* Use Availability Zones for higher resiliency
-* Enable Just-in-Time (JIT) VM Access for SSH security
-
----
-
 ## End-to-End Architecture Overview
 
 1. Artifact built locally using Maven
