@@ -6,7 +6,7 @@ To enable secure internal name resolution, **Azure Private DNS** is implemented.
 
 ---
 
-# Private DNS Zone Configuration
+## Private DNS Zone Configuration
 
 A Private DNS Zone is created to provide internal hostname resolution for all application and backend services.
 
@@ -23,7 +23,7 @@ This configuration ensures that DNS records are resolvable only internally and n
 
 ---
 
-# DNS Record Creation
+## DNS Record Creation
 
 Within the Private DNS Zone, individual A records are created for each service instance. Each record maps a hostname to the corresponding private IP address of the virtual machine.
 
@@ -59,7 +59,7 @@ This configuration enables reliable hostname-based communication between applica
 
 ---
 
-# DNS Resolution Testing
+## DNS Resolution Testing
 
 After DNS records are created and the Private DNS Zone is linked to the VNet, name resolution is validated from a virtual machine within `Webappvnet`.
 
