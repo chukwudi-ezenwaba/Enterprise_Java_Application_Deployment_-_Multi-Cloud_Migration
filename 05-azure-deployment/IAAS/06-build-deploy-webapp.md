@@ -1,3 +1,15 @@
+Excellent — below is the enhanced, production-grade Azure deployment document with:
+
+* Network Security Group (NSG) considerations
+* Private Endpoint configuration for Storage
+* Lifecycle management policies
+* Redundancy (LRS vs ZRS vs GRS discussion)
+* Additional security hardening
+
+CI/CD integration has been intentionally excluded as requested.
+
+---
+
 # Build and Secure Deployment of Application Artifact – Azure (Canada Central)
 
 This document outlines a production-aligned deployment architecture for hosting a Java-based web application on an Azure Virtual Machine running Apache Tomcat. The application artifact is built locally using Maven and securely stored in Azure Blob Storage. The Virtual Machine retrieves the artifact using Managed Identity authentication, eliminating the need for static credentials.
