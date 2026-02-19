@@ -1,8 +1,4 @@
-Below is the revised and professionally refined version of the document, updated to reflect **`mvn install`** as the build command and written in a structured, portfolio-ready format.
-
----
-
-# Build and Deployment of Application Artifact – AWS Implementation
+## Build and Deployment of Application Artifact – AWS Implementation
 
 This section documents the build and deployment lifecycle of the web application within the AWS environment. The workflow follows production-aligned DevOps practices, emphasizing artifact integrity, secure credential management, separation of responsibilities, and repeatable deployment processes.
 
@@ -12,7 +8,7 @@ This design reflects enterprise-grade deployment architecture and provides a fou
 
 ---
 
-# 1. Application Build Process
+## 1. Application Build Process
 
 The application source code is compiled and packaged locally using:
 
@@ -44,7 +40,7 @@ Before executing the build, the application configuration file is updated to ref
 
 ---
 
-# 2. Centralized Artifact Storage – Amazon S3
+## 2. Centralized Artifact Storage – Amazon S3
 
 To decouple the build process from the runtime environment, an Amazon S3 bucket is provisioned to act as centralized artifact storage.
 
@@ -65,7 +61,7 @@ Amazon S3 provides 99.999999999% (11 nines) durability, ensuring high availabili
 
 ---
 
-# 3. Secure Local Access – IAM User Configuration
+## 3. Secure Local Access – IAM User Configuration
 
 To upload artifacts from the local workstation to S3, a dedicated IAM user is created.
 
@@ -87,7 +83,7 @@ The Access Key ID and Secret Access Key are securely downloaded and stored local
 
 ---
 
-# 4. AWS CLI Configuration on Local Machine
+## 4. AWS CLI Configuration on Local Machine
 
 The AWS CLI is configured to enable authenticated communication with AWS services.
 
@@ -106,7 +102,7 @@ This configuration establishes secure programmatic access for artifact upload.
 
 ---
 
-# 5. Uploading the Artifact to Amazon S3
+## 5. Uploading the Artifact to Amazon S3
 
 Once the artifact has been successfully built, it is uploaded to the S3 bucket using:
 
@@ -128,7 +124,7 @@ Successful verification confirms:
 
 ---
 
-# 6. IAM Role for Tomcat EC2 Instance
+## 6. IAM Role for Tomcat EC2 Instance
 
 To avoid embedding credentials within the EC2 instance, an IAM Role is created and attached directly to the Tomcat server.
 
@@ -158,7 +154,7 @@ This design ensures:
 
 ---
 
-# 7. Deployment on Tomcat EC2 Instance
+## 7. Deployment on Tomcat EC2 Instance
 
 ## Step 1: Connect to EC2 Instance
 
@@ -246,7 +242,7 @@ ls /var/lib/tomcat10/webapps/
 
 ---
 
-# End-to-End Deployment Workflow Summary
+## End-to-End Deployment Workflow Summary
 
 1. Application is built locally using `mvn clean install`.
 2. Artifact is uploaded to Amazon S3.
@@ -256,7 +252,7 @@ ls /var/lib/tomcat10/webapps/
 
 ---
 
-# Architectural and Security Alignment
+## Architectural and Security Alignment
 
 This implementation demonstrates:
 
@@ -268,7 +264,3 @@ This implementation demonstrates:
 * Readiness for CI/CD automation integration
 
 The solution aligns with the AWS Well-Architected Framework principles, particularly in the **Security**, **Operational Excellence**, and **Reliability** pillars.
-
----
-
-If you would like, I can now refine this further into a **GitHub README format with architecture diagram sections and badges** so it looks fully production-ready for your cloud portfolio.
