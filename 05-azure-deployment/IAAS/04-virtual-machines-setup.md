@@ -15,9 +15,7 @@ This approach ensures repeatable, consistent, Infrastructure-as-Code–aligned d
 
 ---
 
-
-
-# MySQL Azure Virtual Machine Configuration
+## MySQL Azure Virtual Machine Configuration
 
 The MySQL virtual machine is dedicated to database services and is provisioned using a custom initialization script.
 
@@ -69,7 +67,7 @@ MySQL automation script executed during provisioning
 
 ---
 
-# Memcached Azure Virtual Machine Configuration
+## Memcached Azure Virtual Machine Configuration
 
 The Memcached virtual machine provides high-speed in-memory caching for the application tier.
 
