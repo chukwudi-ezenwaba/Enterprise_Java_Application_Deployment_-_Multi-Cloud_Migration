@@ -6,7 +6,7 @@ To enable internal name resolution within the VPC, **Amazon Route 53** Private D
 
 ---
 
-# Private Hosted Zone Configuration
+## Private Hosted Zone Configuration
 
 A Private Hosted Zone is created to provide internal DNS resolution strictly within the associated VPC. This ensures backend services remain private and are not publicly resolvable over the internet.
 
@@ -21,7 +21,7 @@ By associating the hosted zone with the VPC, only resources within that VPC can 
 
 ---
 
-# DNS Record Creation
+## DNS Record Creation
 
 After creating the Private Hosted Zone, individual A records are configured for each service instance.
 
@@ -53,7 +53,7 @@ Each record maps a hostname to its respective private IP, enabling seamless serv
 
 ---
 
-# DNS Resolution Testing
+## DNS Resolution Testing
 
 After configuring the records, internal DNS resolution is validated from an EC2 instance within the same VPC.
 
