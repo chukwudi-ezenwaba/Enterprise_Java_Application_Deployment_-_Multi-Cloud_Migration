@@ -38,7 +38,7 @@ This ensures the database server is fully configured during initial provisioning
 ## Instance Specifications
 
 **Region:**
-East US
+Canada Central
 
 **Virtual Machine Name:**
 `webappdb01`
@@ -89,7 +89,7 @@ Access is strictly limited to application-tier virtual machines within `Webappsu
 ## Instance Specifications
 
 **Region:**
-East US
+Canada Central
 
 **Virtual Machine Name:**
 `webappmc01`
@@ -120,7 +120,7 @@ This configuration ensures caching services remain internal and inaccessible fro
 
 ---
 
-# RabbitMQ Azure Virtual Machine Configuration
+## RabbitMQ Azure Virtual Machine Configuration
 
 The RabbitMQ virtual machine is responsible for asynchronous message handling between application components.
 
@@ -146,7 +146,7 @@ RabbitMQ listens on port 5672, restricted to the application subnet.
 ## Instance Specifications
 
 **Region:**
-East US
+Canada Central
 
 **Virtual Machine Name:**
 `webapprmq01`
@@ -175,7 +175,7 @@ RabbitMQ automation script executed at deployment
 
 ---
 
-# Apache Tomcat Azure Virtual Machine Configuration
+## Apache Tomcat Azure Virtual Machine Configuration
 
 The Tomcat virtual machine hosts the Java-based web application and operates within the application tier.
 
@@ -198,7 +198,7 @@ The Tomcat VMs are not publicly exposed. Traffic flows exclusively through Azure
 ## Instance Specifications
 
 **Region:**
-East US
+Canada Central
 
 **Virtual Machine Name:**
 `webapp01`
@@ -236,11 +236,174 @@ Tomcat automation script executed during deployment
 * NSGs enforce strict east-west and north-south traffic control
 * Automation scripts ensure consistent provisioning
 * No backend services are publicly exposed
+## Service Validation – Azure Virtual Machine Deployment
 
-This Azure deployment mirrors enterprise-grade multi-tier architecture patterns and demonstrates expertise in:
+After provisioning the Azure Virtual Machines, each service is validated to ensure successful installation, configuration, and operational readiness. Administrative access is performed securely using SSH through either a public IP (restricted to a trusted IP) or via Azure Bastion for enhanced security.
 
-* Azure Virtual Networking and Subnet Segmentation
-* NSG-based traffic isolation
-* VM provisioning with automation
-* Secure application-tier design
-* Cloud-native infrastructure best practices
+> **Security Note:** For production-style deployments, SSH access should be performed through Azure Bastion or restricted using Network Security Groups (NSGs) to a specific administrator public IP address.
+
+---
+
+# Testing MySQL Azure Virtual Machine
+
+### Step 1: Connect via SSH
+
+Using a public IP:
+
+```bash
+ssh -i path-to-key/web-app-key1.pem azureuser@<Public-IP>
+```
+Using Azure Bastion:
+
+* Navigate to the VM in the Azure Portal
+* Select **Connect → Bastion**
+* Authenticate using SSH private key
+
+---
+
+### Step 2: Verify Database Service Status
+
+```bash
+sudo systemctl status mysql
+```
+
+Ensure the service status shows **active (running)**.
+
+---
+
+### Step 3: Connect to the Database
+
+```bash
+mysql -u admin -p accounts
+```
+
+Enter the configured password (e.g., `admin123` for lab purposes).
+
+---
+
+### Step 4: Validate Database Schema
+
+```sql
+SHOW TABLES;
+```
+
+Successful output confirms:
+
+* The database was successfully created
+* The schema file was deployed correctly
+* The administrative user has appropriate privileges
+
+---
+
+# Testing Memcached Azure Virtual Machine
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem azureuser@<Public-IP>
+```
+
+Or connect securely via Azure Bastion.
+
+---
+
+### Step 2: Verify Service Status
+
+```bash
+sudo systemctl status memcached
+```
+
+Confirm the service is **active (running)**.
+
+---
+
+### Optional: Verify Port Listening
+
+```bash
+sudo ss -tulnp | grep 11211
+```
+
+This confirms Memcached is listening on the expected port and accessible only from authorized internal subnets (e.g., `Webappsubnet`).
+
+---
+
+# Testing RabbitMQ Azure Virtual Machine
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem azureuser@<Public-IP>
+```
+
+Or use Azure Bastion.
+
+---
+
+### Step 2: Verify RabbitMQ Service Status
+
+```bash
+sudo systemctl status rabbitmq-server
+```
+
+Ensure the service is **active (running)**.
+
+---
+
+### Optional: Verify Listening Port
+
+```bash
+sudo ss -tulnp | grep 5672
+```
+
+This confirms RabbitMQ is listening on its default messaging port and restricted to internal application-tier access.
+
+---
+
+# Testing Apache Tomcat Azure Virtual Machine
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem azureuser@<Public-IP>
+```
+
+---
+
+### Step 2: Verify Tomcat Service Status
+
+```bash
+sudo systemctl status tomcat
+```
+
+Confirm that the service is **active (running)**.
+
+---
+
+### Step 3: Validate Application Accessibility
+
+From a browser:
+
+* Navigate to the Application Gateway public IP or DNS name
+* Confirm the application loads successfully
+
+Or verify locally from the VM:
+
+```bash
+curl http://localhost:8080
+```
+
+A valid HTTP response confirms the application server is operational.
+
+---
+
+# Validation Summary
+
+Successful validation confirms:
+
+* Azure VM Custom Script Extensions executed correctly
+* Services are installed, enabled, and persistent across reboots
+* NSG rules are enforcing proper subnet-level isolation
+* Application-tier services are accessible only through Azure Application Gateway
+* Backend services remain private within `bckndsubnet`
+
+

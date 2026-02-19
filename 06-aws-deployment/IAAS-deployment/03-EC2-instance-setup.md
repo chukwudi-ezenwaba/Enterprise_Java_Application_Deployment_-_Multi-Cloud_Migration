@@ -270,3 +270,111 @@ US East (N. Virginia)
 
 ---
 
+## Service Validation – EC2 Deployment
+
+After provisioning the EC2 instances, each service is validated to confirm successful installation, configuration, and operational status. Administrative access is performed securely using SSH and the associated private key.
+
+> **Note:** SSH access is restricted to a trusted administrator IP address via Security Group rules.
+
+---
+
+## Testing MySQL EC2 Instance
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem ec2-user@<Public-IP>
+```
+
+### Step 2: Verify Database Service Status
+
+```bash
+sudo systemctl status mariadb
+```
+
+Ensure the service is in an **active (running)** state.
+
+### Step 3: Connect to the Database
+
+```bash
+mysql -u admin -p accounts
+```
+
+When prompted, enter the configured password (e.g., `admin123` for lab purposes).
+
+### Step 4: Validate Database Schema
+
+```sql
+SHOW TABLES;
+```
+
+Successful output confirms that:
+
+* The database was created
+* The schema file was properly deployed
+* The administrative user has appropriate privileges
+
+---
+
+# Testing Memcached EC2 Instance
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem ec2-user@<Public-IP>
+```
+
+### Step 2: Verify Service Status
+
+```bash
+sudo systemctl status memcached
+```
+
+Confirm the service is **active (running)**.
+
+### Optional: Verify Port Listening
+
+```bash
+sudo ss -tulnp | grep 11211
+```
+
+This confirms Memcached is listening on the expected port and accessible only from authorized security groups.
+
+---
+
+# Testing RabbitMQ EC2 Instance
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem ec2-user@<Public-IP>
+```
+
+### Step 2: Verify RabbitMQ Service Status
+
+```bash
+sudo systemctl status rabbitmq-server
+```
+
+Confirm the service is **active (running)**.
+
+### Optional: Verify Listening Port
+
+```bash
+sudo ss -tulnp | grep 5672
+```
+
+This ensures RabbitMQ is properly listening on its default messaging port.
+
+---
+
+## Validation Summary
+
+Successful validation confirms:
+
+* Services were provisioned correctly via EC2 User Data automation scripts
+* Systemd services are enabled and persistent across reboots
+* Application dependencies are operational
+* Network security rules are correctly allowing restricted access
+
+This structured validation process aligns with production deployment verification practices and ensures infrastructure reliability before application integration testing.
