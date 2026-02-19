@@ -130,7 +130,7 @@ This assigns a private IP address to the storage account within the Virtual Netw
 
 Blob lifecycle management reduces long-term storage costs and enforces governance.
 
-Example policy:
+policy:
 
 * Move blobs to Cool tier after 30 days
 * Move blobs to Archive tier after 90 days
@@ -146,36 +146,6 @@ This supports operational efficiency and cost optimization.
 
 ---
 
-## 6. Azure Virtual Machine Configuration
-
-## VM Details
-
-* **Region:** Canada Central
-* **Operating System:** Ubuntu Server
-* **Size:** B2s (lab) or D-series (production)
-* **Availability Option:** Availability Zone (Recommended)
-
----
-
-## Network Architecture
-
-### Virtual Network (VNet)
-
-* Address Space: 10.0.0.0/16
-* Subnet (AppSubnet): 10.0.1.0/24
-
----
-
-## Network Security Group (NSG)
-
-The NSG associated with the VM subnet includes:
-
-| Priority | Source        | Port | Protocol | Action |
-| -------- | ------------- | ---- | -------- | ------ |
-| 100      | Load Balancer | 80   | TCP      | Allow  |
-| 110      | Admin IP      | 22   | TCP      | Allow  |
-| 200      | Internet      | Any  | Any      | Deny   |
-
 ### Security Principles Applied
 
 * Least privilege network access
@@ -184,7 +154,7 @@ The NSG associated with the VM subnet includes:
 
 ---
 
-## 7. Managed Identity Configuration
+## 6. Managed Identity Configuration
 
 To eliminate credential management risks:
 
@@ -215,7 +185,7 @@ This grants read-only access to artifacts, following least privilege principles.
 
 ---
 
-## 8. Secure Artifact Upload from Local Machine
+## 7. Secure Artifact Upload from Local Machine
 
 Authenticate:
 
@@ -236,7 +206,7 @@ az storage blob upload \
 
 ---
 
-## 9. Deployment on Azure VM
+## 8. Deployment on Azure VM
 
 ## Step 1 – Connect to VM
 
@@ -305,7 +275,7 @@ systemctl start tomcat10
 
 ---
 
-## 10. Optional Production Enhancements
+## 9. Optional Production Enhancements
 
 * Enable Azure Monitor and Log Analytics
 * Enable Microsoft Defender for Cloud
