@@ -28,7 +28,7 @@ mvn clean install
 
 Unlike `mvn package`, the `install` phase ensures the artifact is also stored locally in the Maven repository, making it reusable for dependent modules or future builds.
 
-The resulting deployable artifact (e.g., `vprofile-v2.war`) is generated inside the:
+The resulting deployable artifact `vprofile-v2.war` is generated inside the:
 
 ```
 target/
@@ -251,16 +251,5 @@ ls /var/lib/tomcat10/webapps/
 5. Application becomes accessible via the configured Application Load Balancer.
 
 ---
-
-## Architectural and Security Alignment
-
-This implementation demonstrates:
-
-* Clear separation between build and runtime environments
-* Centralized and durable artifact storage
-* IAM Role–based secure credential management
-* Elimination of hardcoded AWS credentials
-* Repeatable and auditable deployment workflow
-* Readiness for CI/CD automation integration
 
 The solution aligns with the AWS Well-Architected Framework principles, particularly in the **Security**, **Operational Excellence**, and **Reliability** pillars.
