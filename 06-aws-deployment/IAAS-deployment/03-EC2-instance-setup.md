@@ -368,6 +368,23 @@ This ensures RabbitMQ is properly listening on its default messaging port.
 
 ---
 
+# Testing Tomcat EC2 Instance
+
+### Step 1: Connect via SSH
+
+```bash
+ssh -i path-to-key/web-app-key1.pem ubuntu@<Public-IP>
+```
+
+### Step 2: Verify RabbitMQ Service Status
+
+```bash
+sudo systemctl status tomcat10
+```
+
+Confirm the service is **active (running)**.
+
+This ensures RabbitMQ is properly listening on its default messaging port.
 ## Validation Summary
 
 Successful validation confirms:
