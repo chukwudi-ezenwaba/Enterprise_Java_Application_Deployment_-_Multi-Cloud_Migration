@@ -7,7 +7,7 @@ The network security architecture is designed following the principle of least p
 ## Create Security Groups (SGs)
 The following security groups are created.
 
-### 1.load Balancer SG (Named SLSG)
+### 1.load Balancer SG (Named LBSG)
 
 The load balancer SG is configured to control inbound traffic from the public internet.
 

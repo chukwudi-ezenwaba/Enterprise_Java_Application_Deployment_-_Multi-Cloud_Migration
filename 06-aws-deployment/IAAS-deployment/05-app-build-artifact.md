@@ -239,9 +239,9 @@ Verification:
 ```bash
 ls /var/lib/tomcat10/webapps/
 ```
-
+## Quiuk Testing
+Access the `webapp01` vit it's public IP address and port number 8080  on a browser 
 ---
-
 ## End-to-End Deployment Workflow Summary
 
 1. Application is built locally using `mvn clean install`.
