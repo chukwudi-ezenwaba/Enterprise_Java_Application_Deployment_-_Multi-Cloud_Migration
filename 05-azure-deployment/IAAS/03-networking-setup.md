@@ -12,7 +12,7 @@ All compute resources are deployed inside a dedicated Azure Virtual Network to e
 
 * **VNet Name:** `Webappvnet`
 
-### Subnet Configuration
+## Subnet Configuration
 
 * **Application Gateway Subnet:** `AGsubnet`
 
@@ -20,7 +20,7 @@ All compute resources are deployed inside a dedicated Azure Virtual Network to e
   * Public-facing entry point
   * Handles HTTPS traffic and Layer 7 routing
 
-* **Web Application Subnet:** `Webappsubnet`
+* **Web Application Subnet:** `Webapp01subnet`
 
   * Hosts Apache Tomcat virtual machines
   * Accessible only from Application Gateway
@@ -48,6 +48,8 @@ The Application Gateway Network Security Group is configured to control inbound 
 
 This NSG ensures that only web traffic is exposed publicly while preventing direct access to internal application or backend resources.
 
+## Create Application Gateway Application Security Groups
+* **Name:** `APGASG`
 ---
 
 ### 2. Web Application NSG (Named WEBAPPNSG)
