@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworks_Webappvnet_name": {
+            "value": "Webappvnet"
+        },
+        "networkSecurityGroups_APGNSG_externalid": {
+            "value": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp/providers/Microsoft.Network/networkSecurityGroups/APGNSG"
+        },
+        "networkSecurityGroups_BCKNDNSG_externalid": {
+            "value": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp/providers/Microsoft.Network/networkSecurityGroups/BCKNDNSG"
+        }
+    }
+}

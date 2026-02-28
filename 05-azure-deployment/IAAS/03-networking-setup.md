@@ -34,12 +34,15 @@ Each subnet is protected using Network Security Groups (NSGs) aligned with least
 
 ---
 
+## Create Application Gateway Application Security Groups
+* Application Gateway NSG (Named APGNSG)
+* Webapp application security group (Named WEBAPPSG)
+* Backend application security group (Named BCKNDASG)
+
+---
+
 ## Create Network Security Groups (NSGs)
 The following security groups are created.
-
-### 1. Application Gateway NSG (Named APGNSG)
-
-The Application Gateway Network Security Group is configured to control inbound traffic from the public internet.
 
 **Inbound Rules:**
 
@@ -48,8 +51,6 @@ The Application Gateway Network Security Group is configured to control inbound 
 
 This NSG ensures that only web traffic is exposed publicly while preventing direct access to internal application or backend resources.
 
-## Create Application Gateway Application Security Groups
-* **Name:** `APGASG`
 ---
 
 ### 2. Web Application NSG (Named WEBAPPNSG)

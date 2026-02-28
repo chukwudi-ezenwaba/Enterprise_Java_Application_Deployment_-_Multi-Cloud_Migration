@@ -1,4 +1,4 @@
-## DNS Configuration – Azure Private DNS
+## Private DNS Configuration – Azure Private DNS
 
 The application source code references backend services using hostnames and port numbers (e.g., `webappdb01.webapp.in:3306`). For proper communication between virtual machines within the virtual network, these hostnames must resolve to their respective private IP addresses.
 
@@ -26,6 +26,17 @@ This configuration ensures that DNS records are resolvable only internally and n
 ## DNS Record Creation
 
 Within the Private DNS Zone, individual A records are created for each service instance. Each record maps a hostname to the corresponding private IP address of the virtual machine.
+
+The DNS zone can be created in the DNS Management blade under **Recordsets**. The DNS zone is then linked to a **Virtual Network** using **Virtual Network Link**.
+
+## Add Virtual Network Link 
+This virtual network link would connect the `WEBAPPVNET` to the `webapp` private DNS zoness.
+
+Add the virtual networks using the **virtual network links** tab under **DNS Management**.
+
+* **Link Name:** `webapp`
+* **Virtual Network** `WEBAPPVNET`
+* Click the checkbox **Enable auto registration** to enable automatic creation of these recorrds for all virtual machines in the **WEBAPPVNET**. 
 
 ### Database Server
 

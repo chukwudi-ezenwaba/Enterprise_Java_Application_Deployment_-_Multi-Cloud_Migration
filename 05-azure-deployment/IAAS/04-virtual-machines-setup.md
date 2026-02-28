@@ -47,7 +47,31 @@ Canada Central
 Ubuntu Server 22.04 LTS (or Azure-supported Linux distribution)
 
 **VM Size:**
-Standard B1s (cost-optimized for lab environment)
+Standard D2s_v3 (cost-optimized for lab environment)
+
+**Authentication type:**
+SSH public key
+
+**SSH public key source:**
+Generate new key pair
+
+**SSH Key Type:**
+RSA SSH Format
+
+**Public inbound port rules:**
+Allow selected ports
+
+**Select inbound ports:**
+SSH (22)
+
+**OS disk size:**
+30 GiB
+
+**OS disk type:**
+Premium SSD
+
+**Key management:**
+Platform-managed key
 
 **Virtual Network:**
 `Webappvnet`
@@ -95,10 +119,34 @@ Canada Central
 `webappmc01`
 
 **Image:**
-Ubuntu Server 22.04 LTS
+Ubuntu Server 22.04 LTS (or Azure-supported Linux distribution)
 
 **VM Size:**
-Standard B1s
+Standard D2s_v3 (cost-optimized for lab environment)
+
+**Authentication type:**
+SSH public key
+
+**SSH public key source:**
+Generate new key pair
+
+**SSH Key Type:**
+RSA SSH Format
+
+**Public inbound port rules:**
+Allow selected ports
+
+**Select inbound ports:**
+SSH (22)
+
+**OS disk size:**
+30 GiB
+
+**OS disk type:**
+Premium SSD
+
+**Key management:**
+Platform-managed key
 
 **Virtual Network:**
 `Webappvnet`
