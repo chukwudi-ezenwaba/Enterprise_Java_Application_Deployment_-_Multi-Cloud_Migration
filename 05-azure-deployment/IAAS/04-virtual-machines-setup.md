@@ -1,4 +1,4 @@
-# Microsoft Azure Infrastructure Configuration
+## Microsoft Azure Infrastructure Configuration
 
 The application infrastructure is deployed in Microsoft Azure using dedicated Azure Virtual Machines, each assigned a single responsibility to ensure service isolation, scalability, and maintainability.
 
@@ -19,7 +19,7 @@ This approach ensures repeatable, consistent, Infrastructure-as-Code–aligned d
 
 The MySQL virtual machine is dedicated to database services and is provisioned using a custom initialization script.
 
-## #Automation Script Responsibilities
+### #Automation Script Responsibilities
 
 The MySQL deployment script performs the following:
 
@@ -35,7 +35,7 @@ This ensures the database server is fully configured during initial provisioning
 
 ---
 
-## Instance Specifications
+### Instance Specifications
 
 * **Region:** East US
 * **Virtual Machine Name:** `webappdb01`
@@ -63,11 +63,11 @@ MySQL automation script executed during provisioning
 
 ---
 
-## Memcached Azure Virtual Machine Configuration
+### Memcached Azure Virtual Machine Configuration
 
 The Memcached virtual machine provides high-speed in-memory caching for the application tier.
 
-## Automation Script Responsibilities
+### Automation Script Responsibilities
 
 The Memcached deployment script:
 
@@ -82,7 +82,7 @@ Access is strictly limited to application-tier virtual machines within `Webappsu
 
 ---
 
-## Instance Specifications
+### Instance Specifications
 
 * **Region:** East US
 * **Virtual Machine Name:** `webappmc01`
@@ -114,13 +114,13 @@ This configuration ensures caching services remain internal and inaccessible fro
 
 ---
 
-## RabbitMQ Azure Virtual Machine Configuration
+### RabbitMQ Azure Virtual Machine Configuration
 
 The RabbitMQ virtual machine is responsible for asynchronous message handling between application components.
 
 Deployment is automated using Azure VM Custom Script Extensions.
 
-## Automation Script Responsibilities
+### Automation Script Responsibilities
 
 The RabbitMQ provisioning script:
 
@@ -137,7 +137,7 @@ RabbitMQ listens on port 5672, restricted to the application subnet.
 
 ---
 
-## Instance Specifications
+### Instance Specifications
 
 **Region:** East US
 **Virtual Machine Name:** `webapprmq01`
@@ -157,11 +157,11 @@ RabbitMQ automation script executed at deployment
 
 ---
 
-## Apache Tomcat Azure Virtual Machine Configuration
+### Apache Tomcat Azure Virtual Machine Configuration
 
 The Tomcat virtual machine hosts the Java-based web application and operates within the application tier.
 
-## Automation Script Responsibilities
+### Automation Script Responsibilities
 
 The Tomcat deployment script performs the following:
 
@@ -177,7 +177,7 @@ The Tomcat VMs are not publicly exposed. Traffic flows exclusively through Azure
 
 ---
 
-## Instance Specifications
+### Instance Specifications
 
 * **Region:** East US
 * **Virtual Machine Name:** `webapp01`
@@ -197,7 +197,7 @@ Tomcat automation script executed during deployment
 
 ---
 
-# Deployment Design Summary
+### Deployment Design Summary
 
 * All virtual machines are deployed within `Webappvnet`
 * Application Gateway is deployed in `AGsubnet`
@@ -206,7 +206,10 @@ Tomcat automation script executed during deployment
 * NSGs enforce strict east-west and north-south traffic control
 * Automation scripts ensure consistent provisioning
 * No backend services are publicly exposed
-## Service Validation – Azure Virtual Machine Deployment
+
+---
+
+### Service Validation – Azure Virtual Machine Deployment
 
 After provisioning the Azure Virtual Machines, each service is validated to ensure successful installation, configuration, and operational readiness. Administrative access is performed securely using SSH through either a public IP (restricted to a trusted IP) or via Azure Bastion for enhanced security.
 
