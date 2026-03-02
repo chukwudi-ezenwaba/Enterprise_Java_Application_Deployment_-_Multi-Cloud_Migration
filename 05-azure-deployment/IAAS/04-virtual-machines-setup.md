@@ -1,4 +1,4 @@
-## Microsoft Azure Infrastructure Configuration
+### Microsoft Azure Infrastructure Configuration
 
 The application infrastructure is deployed in Microsoft Azure using dedicated Azure Virtual Machines, each assigned a single responsibility to ensure service isolation, scalability, and maintainability.
 
