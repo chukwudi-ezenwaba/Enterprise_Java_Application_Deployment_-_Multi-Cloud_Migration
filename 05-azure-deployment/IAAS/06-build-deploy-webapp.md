@@ -1,4 +1,4 @@
-## Build and Secure Deployment of Application Artifact – Azure (Canada Central)
+### Build and Secure Deployment of Application Artifact – Azure (Canada Central)
 
 This document outlines a production-aligned deployment architecture for hosting a Java-based web application on an Azure Virtual Machine running Apache Tomcat. The application artifact is built locally using Maven and securely stored in Azure Blob Storage. The Virtual Machine retrieves the artifact using Managed Identity authentication, eliminating the need for static credentials.
 
@@ -6,9 +6,9 @@ All resources are deployed in the **Canada Central** region to ensure geographic
 
 ---
 
-## 1. Resource Organization
+### 1. Resource Organization
 
-## Resource Group
+### Resource Group
 
 All resources are deployed within:
 
@@ -19,7 +19,7 @@ Centralizing resources within a single resource group enables simplified lifecyc
 
 ---
 
-## 2. Application Build Process
+### 2. Application Build Process
 
 The application is compiled locally using:
 
@@ -51,9 +51,9 @@ Before building, backend configurations are updated to reference internal Azure 
 
 ---
 
-## 3. Azure Storage Account – Secure Artifact Repository
+### 3. Azure Storage Account – Secure Artifact Repository
 
-## Storage Account Configuration
+### Storage Account Configuration
 
 * **Name:** webapp01storage7 (globally unique)
 * **Region:** Canada Central
@@ -67,18 +67,11 @@ Before building, backend configurations are updated to reference internal Azure 
 * **Public network access scope** Enable from selected virtual networks and IP addresses
 
 ### Redundancy Considerations
-
-| Option | Description                              | Use Case                       |
-| ------ | ---------------------------------------- | ------------------------------ |
-| LRS    | Replicates data within single datacenter | Cost-effective lab environment |
-| ZRS    | Replicates across availability zones     | High availability production   |
-| GRS    | Replicates to secondary region           | Disaster recovery scenario     |
-
 For this environment, **LRS** is sufficient. In production, **ZRS** or **GRS** would be recommended depending on business continuity requirements.
 
 ---
 
-## Blob Container
+### Blob Container
 
 * **Container Name:** artifacts
 * **Public Access Level:** Private
@@ -87,7 +80,7 @@ This ensures artifacts are accessible only through authenticated Azure identitie
 
 ---
 
-## 4. Storage Security Hardening
+###### 4. Storage Security Hardening
 
 To align with enterprise security standards, additional configurations are implemented:
 
@@ -138,7 +131,7 @@ Test the virtual machine can resolve the private DNS zone.
 
 ---
 
-## 5. Lifecycle Management Policy
+### 5. Lifecycle Management Policy
 
 Blob lifecycle management reduces long-term storage costs and enforces governance.
 
@@ -166,11 +159,11 @@ This supports operational efficiency and cost optimization.
 
 ---
 
-## 6. Managed Identity Configuration
+### 6. Managed Identity Configuration
 
 To eliminate credential management risks:
 
-## Enable System-Assigned Managed Identity
+### Enable System-Assigned Managed Identity
 
 ```
 VM → Security → Identity → System Assigned → On
@@ -180,7 +173,7 @@ Azure automatically creates a service principal linked to the VM.
 
 ---
 
-## Assign Role to Storage Account
+### Assign Role to Storage Account
 
 Navigate to:
 
@@ -197,7 +190,7 @@ This grants read-only access to artifacts, following least privilege principles.
 
 ---
 
-## 7. Secure Artifact Upload from Local Machine
+### 7. Secure Artifact Upload from Local Machine
 
 Authenticate:
 
@@ -218,9 +211,9 @@ az storage blob upload `
 
 ---
 
-## 8. Deployment on Azure VM
+### 8. Deployment on Azure VM
 
-## Step 1 – Connect to VM
+### Step 1 – Connect to VM
 
 ```bash
 ssh azureuser@<Public-IP>
@@ -228,7 +221,7 @@ ssh azureuser@<Public-IP>
 
 ---
 
-## Step 2 – Install Azure CLI
+### Step 2 – Install Azure CLI
 
 ```bash
 curl -sL https://aka.ms/InstallAzureCLIDeb | bash
@@ -236,7 +229,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 ---
 
-## Step 3 – Authenticate Using Managed Identity
+### Step 3 – Authenticate Using Managed Identity
 
 ```bash
 az login --identity
@@ -246,7 +239,7 @@ No credentials required.
 
 ---
 
-## Step 4 – Download Artifact
+### Step 4 – Download Artifact
 
 ```bash
 az storage blob download \
@@ -259,7 +252,7 @@ az storage blob download \
 
 ---
 
-## Step 5 – Deploy to Tomcat
+### Step 5 – Deploy to Tomcat
 
 Stop service:
 
@@ -284,7 +277,7 @@ Restart service:
 ```bash
 systemctl start tomcat10
 ```
-## End-to-End Architecture Overview
+### End-to-End Architecture Overview
 
 1. Artifact built locally using Maven
 2. Artifact uploaded to Azure Blob Storage (Canada Central)
