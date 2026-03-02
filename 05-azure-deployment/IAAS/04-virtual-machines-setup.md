@@ -84,47 +84,21 @@ Access is strictly limited to application-tier virtual machines within `Webappsu
 
 ## Instance Specifications
 
-**Region:**
-Canada Central
+* **Region:** East US
+* **Virtual Machine Name:** `webappmc01`
+* **Image:** Ubuntu Server 22.04 LTS
+* **VM Size:** Standard D2s_v3 (cost-optimized for lab environment)
+* **Authentication type:** SSH public key
+* **SSH public key source:** Generate new key pair
+* **SSH Key Type:** RSA SSH Format
+* **Public inbound port rules:** Allow selected ports
+* **Select inbound ports:** SSH (22)
+* **OS disk size:** 30 GiB
+* **OS disk type:** Premium SSD
+* **Key management:** Platform-managed key
+* **Virtual Network:** `Webappvnet`
+* **Subnet:** `bckndsubnet`
 
-**Virtual Machine Name:**
-`webappmc01`
-
-**Image:**
-Ubuntu Server 22.04 LTS (or Azure-supported Linux distribution)
-
-**VM Size:**
-Standard D2s_v3 (cost-optimized for lab environment)
-
-**Authentication type:**
-SSH public key
-
-**SSH public key source:**
-Generate new key pair
-
-**SSH Key Type:**
-RSA SSH Format
-
-**Public inbound port rules:**
-Allow selected ports
-
-**Select inbound ports:**
-SSH (22)
-
-**OS disk size:**
-30 GiB
-
-**OS disk type:**
-Premium SSD
-
-**Key management:**
-Platform-managed key
-
-**Virtual Network:**
-`Webappvnet`
-
-**Subnet:**
-`bckndsubnet`
 
 **Network Security Group:**
 Backend NSG allowing:
@@ -165,24 +139,12 @@ RabbitMQ listens on port 5672, restricted to the application subnet.
 
 ## Instance Specifications
 
-**Region:**
-Canada Central
-
-**Virtual Machine Name:**
-`webapprmq01`
-
-**Image:**
-Ubuntu Server 22.04 LTS
-
-**VM Size:**
-Standard B1s
-
-**Virtual Network:**
-`Webappvnet`
-
-**Subnet:**
-`bckndsubnet`
-
+**Region:** East US
+**Virtual Machine Name:** `webapprmq01`
+**Image:** Ubuntu Server 22.04 LTS
+**VM Size:** Standard B1s
+**Virtual Network:** `Webappvnet`
+**Subnet:** `bckndsubnet`
 **Network Security Group:**
 Backend NSG allowing:
 
@@ -217,25 +179,13 @@ The Tomcat VMs are not publicly exposed. Traffic flows exclusively through Azure
 
 ## Instance Specifications
 
-**Region:**
-Canada Central
-
-**Virtual Machine Name:**
-`webapp01`
-
-**Image:**
-Ubuntu Server 24.04 LTS
-
-**VM Size:**
-Standard B1s
-
-**Virtual Network:**
-`Webappvnet`
-
-**Subnet:**
-`Webappsubnet`
-
-**Network Security Group:**
+* **Region:** East US
+* **Virtual Machine Name:** `webapp01`
+* **Image:** Ubuntu Server 24.04 LTS
+* **VM Size:** Standard B1s
+* **Virtual Network:** `Webappvnet`
+* **Subnet:** `Webappsubnet`
+* **Network Security Group:**
 Web Tier NSG allowing:
 
 * TCP 8080 from `AGsubnet`
