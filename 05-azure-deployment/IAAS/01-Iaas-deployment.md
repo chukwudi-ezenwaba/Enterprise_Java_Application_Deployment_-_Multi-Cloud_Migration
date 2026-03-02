@@ -64,26 +64,16 @@ VM Scale Sets (VMSS):
 
 This ensures high availability while maintaining cost efficiency.
 
----
-
-## 4. Storage Services
+### 4. Storage Services
 
 Azure provides both object and shared file storage options:
 
-### 1. Object Storage
+### Object Storage
 
-**Azure Blob Storage** is used for:
+**Azure Blob Storage** is used to store project artifact:
 
-* Static web assets (images, CSS, JS)
-* Log backups
-* Database exports
-* Application artifacts
 
-Blob Storage provides massive scalability and high durability.
-
----
-
-## DNS Management
+### 5. DNS Management
 
 Domain resolution is handled using **Azure DNS**.
 
