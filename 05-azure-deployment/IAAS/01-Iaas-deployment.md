@@ -51,7 +51,7 @@ It provides:
 
 Application Gateway distributes incoming user traffic across multiple Tomcat instances deployed in a scale set.
 
-## A3.2 uto Scaling – Virtual Machine Scale Sets
+### 3.2 Auto Scaling – Virtual Machine Scale Sets
 
 Elastic scalability is achieved using **Azure Virtual Machine Scale Sets**.
 
