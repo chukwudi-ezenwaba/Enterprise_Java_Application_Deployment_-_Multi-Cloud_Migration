@@ -72,58 +72,9 @@ Azure provides both object and shared file storage options:
 
 **Azure Blob Storage** is used to store project artifact:
 
+### 5. Private DNS Management
 
-### 5. DNS Management
-
-Domain resolution is handled using **Azure DNS**.
-
-Azure DNS provides:
-
-* Public and private DNS zones
-* Custom domain name management
-* Alias records for Azure resources
-* Integration with Azure networking services
-
-This allows users to access the application using a domain name instead of a public IP address.
-
----
-
-## Security – Certificates and Secrets Management
-
-TLS/SSL certificates are managed using **Azure Key Vault**.
-
-Azure Key Vault:
-
-* Securely stores SSL certificates, secrets, and keys
-* Integrates with Application Gateway for HTTPS termination
-* Enables automatic certificate rotation
-* Enforces strict access policies using RBAC
-
-This ensures encrypted HTTPS communication between users and the application.
-
----
-
-## High-Level Traffic Flow
-
-1. A user enters the application domain name in a browser.
-2. Azure DNS resolves the domain to the public IP of the Application Gateway.
-3. Application Gateway terminates HTTPS and forwards the request to healthy backend VM instances running Apache Tomcat.
-4. The Java web application processes authentication and business logic.
-5. MySQL handles persistent storage.
-6. Memcached accelerates performance by caching frequently accessed data.
-7. RabbitMQ processes asynchronous backend messaging tasks.
-8. Static files are retrieved from Azure Blob Storage or Azure Files where applicable.
-
----
-
-## High Availability and Fault Tolerance
-
-* VMs are distributed across multiple Availability Zones.
-* Health probes ensure traffic is routed only to healthy instances.
-* Scale Sets automatically replace failed VMs.
-* Backup and snapshot policies can be configured using Azure Backup.
-
----
+Domain resolution is handled through Azure DNS because the application’s properties file references virtual machines by hostname rather than by IP address. A private DNS zone is used to map each hostname to its corresponding private IP address, ensuring consistent and reliable name resolution within the environment.
 
 ## Architectural Benefits
 
@@ -133,4 +84,4 @@ This ensures encrypted HTTPS communication between users and the application.
 * **Operational Efficiency:** Managed load balancing and DNS services reduce administrative overhead.
 * **Cloud-Native Design:** Follows Azure Well-Architected Framework principles.
 
-This Azure IaaS deployment demonstrates proficiency in Azure networking (VNet, NSGs), compute (VMs, VMSS), load balancing (Application Gateway), storage architecture, identity governance, and secure cloud infrastructure design aligned with real-world enterprise environments.
+This Azure IaaS deployment demonstrates proficiency in Azure networking (VNet, NSGs), compute (VMs, VMSS), Application Gateway, storage architecture, identity governance, and secure cloud infrastructure design aligned with real-world enterprise environments.
