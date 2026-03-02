@@ -1,47 +1,47 @@
 ## Azure IaaS Deployment
 
-The VProfile application is deployed in Microsoft Azure using an Infrastructure-as-a-Service (IaaS) architecture designed for high availability, scalability, and secure enterprise-grade operations. This deployment mirrors the AWS-based architecture but leverages native Azure services for compute, load balancing, storage, DNS, and certificate management.
+The webapp01 application is deployed in Microsoft Azure using an Infrastructure-as-a-Service (IaaS) architecture designed for high availability, scalability, and secure enterprise-grade operations. This deployment mirrors the AWS-based architecture but leverages native Azure services for compute, load balancing, storage, DNS, and certificate management.
 
-The core Azure services used include **Azure Virtual Machines**, **Azure Load Balancer / Application Gateway**, **Virtual Machine Scale Sets**, **Azure Storage**, **Azure Files**, **Azure DNS**, and **Azure Key Vault**.
+The core Azure services used include **Azure Virtual Machines**, **Azure Application Gateway**, **Virtual Machine Scale Sets**, **Azure Storage Account**, **Azure blobs**, **Azure DNS**.
 
 ---
 
-## Compute Layer – Azure Virtual Machines
+## 1. Compute Layer – Azure Virtual Machines
 
-All application components are hosted on **Microsoft Azure Virtual Machines**, which provide scalable and customizable compute capacity in the cloud.
+All application components were hosted on **Microsoft Azure Virtual Machines**, which provide scalable and customizable compute capacity in the cloud.
 
 The following services are deployed on separate VMs:
 
 * **Apache Tomcat** – Hosts the Java web application (WAR file).
 * **RabbitMQ** – Manages asynchronous message queuing.
 * **Memcached** – Provides in-memory caching for performance optimization.
-* **MySQL** – Serves as the relational database backend (either self-managed on a VM or optionally deployed using Azure Database for MySQL PaaS).
+* **MySQL** – Serves as the relational database backend.
 
-### Network Architecture
+### 2. Network Architecture
 
 The infrastructure is deployed within an **Azure Virtual Network (VNet)** and segmented into subnets:
 
 * **Public Subnet** – Hosts the load balancing layer.
-* **Private Subnet** – Hosts application and backend servers.
-* **Database Subnet** – Isolated for enhanced security (optional).
+* **Front End Subnet** – Hosts the web application servers.
+* **Back End  Subnet** – Hosts the backend servers.
 
 Access control is enforced using:
 
-* **Network Security Groups (NSGs)** for traffic filtering.
-* Azure Bastion or jump host for secure administrative access.
+* Network Security Groups (NSGs) to filter traffic.
+* Application Security Groups to group the virtual machines and apply different NSG inbound rules.
 * Role-Based Access Control (RBAC) for identity governance.
 
-This segmentation ensures that backend services are not directly exposed to the public internet.
+This segmentation ensures that both the frontend and backend services are not directly exposed to the public internet.
 
 ---
 
-## Load Balancing Layer
+## 3. Load Balancing Layer
 
 Instead of NGINX, Azure-native load balancing services are used.
 
 ### Azure Application Gateway 
 
-**Azure Application Gateway** is deployed as the primary HTTP/HTTPS load balancer.
+**Azure Application Gateway** is deployed as the primary HTTP load balancer.
 
 It provides:
 
@@ -52,7 +52,6 @@ It provides:
 * Health probes for backend instances
 
 Application Gateway distributes incoming user traffic across multiple Tomcat instances deployed in a scale set.
----
 
 ## Auto Scaling – Virtual Machine Scale Sets
 
@@ -69,7 +68,7 @@ This ensures high availability while maintaining cost efficiency.
 
 ---
 
-## Storage Layer
+## 4. Storage Services
 
 Azure provides both object and shared file storage options:
 
@@ -83,10 +82,6 @@ Azure provides both object and shared file storage options:
 * Application artifacts
 
 Blob Storage provides massive scalability and high durability.
-
-### 2. Shared File Storage
-
-**Azure Files** provides SMB/NFS-based shared storage accessible by multiple VMs. This is useful when horizontally scaled application servers require access to shared content.
 
 ---
 

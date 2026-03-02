@@ -1,0 +1,171 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "privateDnsZones_webapp_in_name": {
+            "defaultValue": "webapp.in",
+            "type": "String"
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/virtualNetworks/WEBAPPVNET",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/privateDnsZones",
+            "apiVersion": "2024-06-01",
+            "name": "[parameters('privateDnsZones_webapp_in_name')]",
+            "location": "global",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/vm000000')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 10,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.0.4"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/vm000001')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 10,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.0.5"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/webapp01')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 3600,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.1.5"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/webapp01-000000')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 10,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.2.7"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/webappdb01')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 3600,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.1.4"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/webappmc01')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 3600,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.2.4"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/A",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/webapprmq01')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 3600,
+                "aRecords": [
+                    {
+                        "ipv4Address": "10.0.2.5"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/SOA",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/@')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "ttl": 3600,
+                "soaRecord": {
+                    "email": "azureprivatedns-host.microsoft.com",
+                    "expireTime": 2419200,
+                    "host": "azureprivatedns.net",
+                    "minimumTtl": 10,
+                    "refreshTime": 3600,
+                    "retryTime": 300,
+                    "serialNumber": 1
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+            "apiVersion": "2024-06-01",
+            "name": "[concat(parameters('privateDnsZones_webapp_in_name'), '/webapp')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_webapp_in_name'))]"
+            ],
+            "properties": {
+                "registrationEnabled": true,
+                "virtualNetwork": {
+                    "id": "[parameters('virtualNetworks_WEBAPPVNET_externalid')]"
+                }
+            }
+        }
+    ]
+}

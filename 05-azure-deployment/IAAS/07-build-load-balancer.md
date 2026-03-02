@@ -26,26 +26,44 @@ Navigate to:
 
 ### Basic Configuration
 
-* **Name:** `webapp01-agw`
+* **Application gateway name:** `webapp01-agw`
 * **Region:** Canada Central
 * **Tier:** Standard v2 (Recommended for production)
 * **Autoscaling:** Enabled (Minimum: 1 instance)
-* **Virtual Network:** Select existing VNet
-* **Subnet:** Create dedicated subnet (e.g., `AppGatewaySubnet`)
-
+* **Minimum instance count** 0
+* **Maximum instance count** 3
+* **address type** IPv4
+* **HTTP2** Enabled
+* **Virtual Network:** `AGsubnet`
 > Azure requires Application Gateway to reside in its own dedicated subnet.
+* **Subnet:** `AppGatewaySubnet`
+* **Frontend IP address type** Public
+* **Public IPv4 address** x.x.x.x (Public IP)
+* **Backend pool name** `webapp01`
+* **Target type** Virtual machine
+* **Target** webapp01
 
----
+### Add a routing rule 
+* **Rule name** webapp01-rule
+* **Priority** 100
 
-## Configure Backend Pool
+## Configure HTTP Listener
 
-Under **Backend Pools**:
+Under **Listeners**:
 
-* **Target Type:** Virtual Machine
-* **Target:** Select VM `webapp01`
-* **Backend Port:** 8080
+* **Name:** `http-listener`
+* **Frontend IP:** Public IP
+* **Protocol:** HTTP
+* **Port:** 80
+* **Listener type** Basic
 
-Port 8080 is used because Apache Tomcat listens on this internal port.
+Under **Backend targets**:
+* **Target type** Backend pool
+
+Under **Backend settings**:
+* **Backend settings name** webapp01-settings
+* **Backend protocol** HTTP
+* **Backend port** 80
 
 ---
 
@@ -55,7 +73,7 @@ Health probes determine whether the backend instance is healthy before routing t
 
 Under **Health Probes**:
 
-* **Protocol:** HTTP
+* **Protocol:** TCP
 * **Port:** 8080
 * **Path:** `/`
 * **Interval:** 30 seconds
@@ -67,17 +85,6 @@ This ensures:
 * Traffic is routed only to responsive application servers
 
 ---
-
-## Configure HTTP Listener
-
-Under **Listeners**:
-
-### HTTP Listener
-
-* **Name:** `http-listener`
-* **Frontend IP:** Public IP
-* **Protocol:** HTTP
-* **Port:** 80
 
 Associate this listener with a routing rule forwarding traffic to the backend pool.
 

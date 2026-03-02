@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "privateEndpoints_webapp_endpoint_name": {
+            "value": null
+        },
+        "storageAccounts_webappstorage7_externalid": {
+            "value": null
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "value": null
+        },
+        "applicationSecurityGroups_BCKNDASG_externalid": {
+            "value": null
+        },
+        "privateDnsZones_privatelink_blob_core_windows_net_externalid": {
+            "value": null
+        }
+    }
+}

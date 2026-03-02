@@ -55,7 +55,7 @@ Before building, backend configurations are updated to reference internal Azure 
 
 ## Storage Account Configuration
 
-* **Name:** webapp01storage (globally unique)
+* **Name:** webapp01storage7 (globally unique)
 * **Region:** Canada Central
 * **Performance Tier:** Standard
 * **Redundancy:** LRS (Locally Redundant Storage)
@@ -63,6 +63,8 @@ Before building, backend configurations are updated to reference internal Azure 
 * **Access Tier:** Hot
 * **Minimum TLS Version:** 1.2
 * **Public Blob Access:** Disabled
+* **Virtual network** WEBAPPVNET
+* **Public network access scope** Enable from selected virtual networks and IP addresses
 
 ### Redundancy Considerations
 
@@ -124,6 +126,16 @@ To prevent storage access over the public internet:
 
 This assigns a private IP address to the storage account within the Virtual Network, ensuring traffic remains internal to Azure.
 
+Add the storage account private private DNZ zone to the virtual machine VNet if it was not added automatically.
+
+Steps:
+* 	Go to Private DNS Zones
+* 	Open the zone (e.g., )
+* 	Select Virtual network links
+* 	Add a link to the VM’s VNet
+
+Test the virtual machine can resolve the private DNS zone.
+
 ---
 
 ## 5. Lifecycle Management Policy
@@ -139,7 +151,7 @@ policy:
 Configure under:
 
 ```
-Storage Account → Lifecycle Management → Add Rule
+Storage Account → Data Management → Lifecycle Management → Add Rule
 ```
 
 This supports operational efficiency and cost optimization.
@@ -161,7 +173,7 @@ To eliminate credential management risks:
 ## Enable System-Assigned Managed Identity
 
 ```
-VM → Identity → System Assigned → On
+VM → Security → Identity → System Assigned → On
 ```
 
 Azure automatically creates a service principal linked to the VM.
@@ -196,11 +208,11 @@ az login
 Upload artifact:
 
 ```bash
-az storage blob upload \
-  --account-name webapp01storage \
-  --container-name artifacts \
-  --name vprofile-v2.war \
-  --file target/vprofile-v2.war \
+az storage blob upload `
+  --account-name webappstorage7 `
+  --container-name artifacts `
+  --name myapp.war `
+  --file "C:\path\to\myapp.war" `
   --auth-mode login
 ```
 

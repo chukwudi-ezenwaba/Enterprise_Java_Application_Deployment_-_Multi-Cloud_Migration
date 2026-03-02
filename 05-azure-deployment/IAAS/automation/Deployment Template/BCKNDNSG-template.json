@@ -1,0 +1,353 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkSecurityGroups_BCKNDNSG_name": {
+            "defaultValue": "BCKNDNSG",
+            "type": "String"
+        },
+        "applicationSecurityGroups_WEBAPPASG_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/applicationSecurityGroups/WEBAPPASG",
+            "type": "String"
+        },
+        "applicationSecurityGroups_BCKNDASG_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/applicationSecurityGroups/BCKNDASG",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('networkSecurityGroups_BCKNDNSG_name')]",
+            "location": "eastus",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "AllowQSL",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_BCKNDNSG_name'), 'AllowQSL')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3306",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "sourceApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                                }
+                            ],
+                            "destinationApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "AllowRabbitMQ",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_BCKNDNSG_name'), 'AllowRabbitMQ')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5672",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "sourceApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                                }
+                            ],
+                            "destinationApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "AllowMemecached",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_BCKNDNSG_name'), 'AllowMemecached')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "11211",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "sourceApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                                }
+                            ],
+                            "destinationApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "AllowSSH",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_BCKNDNSG_name'), 'AllowSSH')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 130,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [
+                                "184.147.66.63",
+                                "10.0.1.5"
+                            ],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowPing",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_BCKNDNSG_name'), 'AllowPing')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "ICMP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 140,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "sourceApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "AlllowAllTrafficFromSelf",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_BCKNDNSG_name'), 'AlllowAllTrafficFromSelf')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "access": "Allow",
+                            "priority": 150,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "sourceApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                                }
+                            ],
+                            "destinationApplicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('networkSecurityGroups_BCKNDNSG_name'), '/AlllowAllTrafficFromSelf')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_BCKNDNSG_name'))]"
+            ],
+            "properties": {
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "*",
+                "access": "Allow",
+                "priority": 150,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "sourceApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                    }
+                ],
+                "destinationApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('networkSecurityGroups_BCKNDNSG_name'), '/AllowMemecached')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_BCKNDNSG_name'))]"
+            ],
+            "properties": {
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "11211",
+                "access": "Allow",
+                "priority": 120,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "sourceApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                    }
+                ],
+                "destinationApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('networkSecurityGroups_BCKNDNSG_name'), '/AllowPing')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_BCKNDNSG_name'))]"
+            ],
+            "properties": {
+                "protocol": "ICMP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 140,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "sourceApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('networkSecurityGroups_BCKNDNSG_name'), '/AllowQSL')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_BCKNDNSG_name'))]"
+            ],
+            "properties": {
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3306",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "sourceApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                    }
+                ],
+                "destinationApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('networkSecurityGroups_BCKNDNSG_name'), '/AllowRabbitMQ')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_BCKNDNSG_name'))]"
+            ],
+            "properties": {
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "5672",
+                "access": "Allow",
+                "priority": 110,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "sourceApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_WEBAPPASG_externalid')]"
+                    }
+                ],
+                "destinationApplicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('networkSecurityGroups_BCKNDNSG_name'), '/AllowSSH')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_BCKNDNSG_name'))]"
+            ],
+            "properties": {
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "22",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 130,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [
+                    "184.147.66.63",
+                    "10.0.1.5"
+                ],
+                "destinationAddressPrefixes": []
+            }
+        }
+    ]
+}

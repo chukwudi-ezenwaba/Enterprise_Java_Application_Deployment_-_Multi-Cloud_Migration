@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachineScaleSets_webapp01_vmss_name": {
+            "value": null
+        },
+        "networkSecurityGroups_basicNsgWEBAPPVNET_nic01_externalid": {
+            "value": null
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "value": null
+        },
+        "applicationGateways_webapp01_agw_externalid": {
+            "value": null
+        },
+        "disks_webapp01_vmss_webapp01_vmss_0_OsDisk_1_2eb2d6d9732c4cceb0a440ba7ddee1d1_externalid": {
+            "value": null
+        }
+    }
+}

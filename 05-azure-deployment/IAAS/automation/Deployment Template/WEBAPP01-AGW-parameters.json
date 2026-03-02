@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationGateways_webapp01_agw_name": {
+            "value": null
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "value": null
+        },
+        "publicIPAddresses_apgw_pub_ip_externalid": {
+            "value": null
+        }
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkInterfaces_webapp_endpoint_nic_name": {
+            "defaultValue": "webapp-endpoint-nic",
+            "type": "String"
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/virtualNetworks/WEBAPPVNET",
+            "type": "String"
+        },
+        "applicationSecurityGroups_BCKNDASG_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/applicationSecurityGroups/BCKNDASG",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('networkInterfaces_webapp_endpoint_nic_name')]",
+            "location": "eastus",
+            "kind": "Regular",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "privateEndpointIpConfig.7238c970-575e-49ad-a8c4-bf42535b338c",
+                        "id": "[concat(resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_webapp_endpoint_nic_name')), '/ipConfigurations/privateEndpointIpConfig.7238c970-575e-49ad-a8c4-bf42535b338c')]",
+                        "type": "Microsoft.Network/networkInterfaces/ipConfigurations",
+                        "properties": {
+                            "privateIPAddress": "10.0.2.6",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_WEBAPPVNET_externalid'), '/subnets/Bckndsubnet')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4",
+                            "applicationSecurityGroups": [
+                                {
+                                    "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "disableTcpStateTracking": false,
+                "nicType": "Standard",
+                "auxiliaryMode": "None",
+                "auxiliarySku": "None"
+            }
+        }
+    ]
+}

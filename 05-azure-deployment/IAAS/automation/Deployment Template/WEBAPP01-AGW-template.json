@@ -1,0 +1,169 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationGateways_webapp01_agw_name": {
+            "defaultValue": "webapp01-agw",
+            "type": "String"
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/virtualNetworks/WEBAPPVNET",
+            "type": "String"
+        },
+        "publicIPAddresses_apgw_pub_ip_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/publicIPAddresses/apgw-pub-ip",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/applicationGateways",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('applicationGateways_webapp01_agw_name')]",
+            "location": "eastus",
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
+            "properties": {
+                "sku": {
+                    "name": "Standard_v2",
+                    "tier": "Standard_v2",
+                    "family": "Generation_1"
+                },
+                "gatewayIPConfigurations": [
+                    {
+                        "name": "appGatewayIpConfig",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/gatewayIPConfigurations/appGatewayIpConfig')]",
+                        "properties": {
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_WEBAPPVNET_externalid'), '/subnets/AGsubnet')]"
+                            }
+                        }
+                    }
+                ],
+                "sslCertificates": [],
+                "trustedRootCertificates": [],
+                "trustedClientCertificates": [],
+                "sslProfiles": [],
+                "frontendIPConfigurations": [
+                    {
+                        "name": "appGwPublicFrontendIpIPv4",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendIPConfigurations/appGwPublicFrontendIpIPv4')]",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[parameters('publicIPAddresses_apgw_pub_ip_externalid')]"
+                            }
+                        }
+                    }
+                ],
+                "frontendPorts": [
+                    {
+                        "name": "port_80",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendPorts/port_80')]",
+                        "properties": {
+                            "port": 80
+                        }
+                    },
+                    {
+                        "name": "port_8080",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendPorts/port_8080')]",
+                        "properties": {
+                            "port": 8080
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "webapp01",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/backendAddressPools/webapp01')]",
+                        "properties": {
+                            "backendAddresses": []
+                        }
+                    }
+                ],
+                "loadDistributionPolicies": [],
+                "backendHttpSettingsCollection": [],
+                "backendSettingsCollection": [
+                    {
+                        "name": "Tomcatservice",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/backendSettingsCollection/Tomcatservice')]",
+                        "properties": {
+                            "port": 8080,
+                            "protocol": "Tcp",
+                            "timeout": 20
+                        }
+                    }
+                ],
+                "httpListeners": [
+                    {
+                        "name": "http-listner",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/httpListeners/http-listner')]",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendIPConfigurations/appGwPublicFrontendIpIPv4')]"
+                            },
+                            "frontendPort": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendPorts/port_80')]"
+                            },
+                            "protocol": "Http",
+                            "hostNames": [],
+                            "requireServerNameIndication": false,
+                            "customErrorConfigurations": []
+                        }
+                    }
+                ],
+                "listeners": [
+                    {
+                        "name": "Tomcat-listner2",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/listeners/Tomcat-listner2')]",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendIPConfigurations/appGwPublicFrontendIpIPv4')]"
+                            },
+                            "frontendPort": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/frontendPorts/port_8080')]"
+                            },
+                            "protocol": "Tcp",
+                            "hostNames": []
+                        }
+                    }
+                ],
+                "urlPathMaps": [],
+                "requestRoutingRules": [],
+                "routingRules": [
+                    {
+                        "name": "webapp02-rule",
+                        "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/routingRules/webapp02-rule')]",
+                        "properties": {
+                            "ruleType": "Basic",
+                            "priority": 101,
+                            "listener": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/listeners/Tomcat-listner2')]"
+                            },
+                            "backendAddressPool": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/backendAddressPools/webapp01')]"
+                            },
+                            "backendSettings": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_webapp01_agw_name')), '/backendSettingsCollection/Tomcatservice')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [],
+                "rewriteRuleSets": [],
+                "redirectConfigurations": [],
+                "privateLinkConfigurations": [],
+                "enableHttp2": true,
+                "enableFIPS": false,
+                "autoscaleConfiguration": {
+                    "minCapacity": 1,
+                    "maxCapacity": 2
+                }
+            }
+        }
+    ]
+}

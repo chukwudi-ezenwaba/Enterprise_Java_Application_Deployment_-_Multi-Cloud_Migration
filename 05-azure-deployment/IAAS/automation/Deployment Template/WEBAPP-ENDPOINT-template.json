@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "privateEndpoints_webapp_endpoint_name": {
+            "defaultValue": "webapp-endpoint",
+            "type": "String"
+        },
+        "storageAccounts_webappstorage7_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Storage/storageAccounts/webappstorage7",
+            "type": "String"
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/virtualNetworks/WEBAPPVNET",
+            "type": "String"
+        },
+        "applicationSecurityGroups_BCKNDASG_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/applicationSecurityGroups/BCKNDASG",
+            "type": "String"
+        },
+        "privateDnsZones_privatelink_blob_core_windows_net_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('privateEndpoints_webapp_endpoint_name')]",
+            "location": "eastus",
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('privateEndpoints_webapp_endpoint_name')]",
+                        "id": "[concat(resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_webapp_endpoint_name')), concat('/privateLinkServiceConnections/', parameters('privateEndpoints_webapp_endpoint_name')))]",
+                        "properties": {
+                            "privateLinkServiceId": "[parameters('storageAccounts_webappstorage7_externalid')]",
+                            "groupIds": [
+                                "blob"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved",
+                                "description": "Auto-Approved",
+                                "actionsRequired": "None"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "customNetworkInterfaceName": "[concat(parameters('privateEndpoints_webapp_endpoint_name'), '-nic')]",
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_WEBAPPVNET_externalid'), '/subnets/Bckndsubnet')]"
+                },
+                "ipConfigurations": [],
+                "applicationSecurityGroups": [
+                    {
+                        "id": "[parameters('applicationSecurityGroups_BCKNDASG_externalid')]"
+                    }
+                ],
+                "customDnsConfigs": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2024-07-01",
+            "name": "[concat(parameters('privateEndpoints_webapp_endpoint_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_webapp_endpoint_name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-blob-core-windows-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_blob_core_windows_net_externalid')]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

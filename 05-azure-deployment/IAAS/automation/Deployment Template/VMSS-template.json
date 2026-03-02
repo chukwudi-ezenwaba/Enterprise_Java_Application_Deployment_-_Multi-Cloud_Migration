@@ -1,0 +1,319 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachineScaleSets_webapp01_vmss_name": {
+            "defaultValue": "webapp01-vmss",
+            "type": "String"
+        },
+        "networkSecurityGroups_basicNsgWEBAPPVNET_nic01_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/networkSecurityGroups/basicNsgWEBAPPVNET-nic01",
+            "type": "String"
+        },
+        "virtualNetworks_WEBAPPVNET_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/virtualNetworks/WEBAPPVNET",
+            "type": "String"
+        },
+        "applicationGateways_webapp01_agw_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Network/applicationGateways/webapp01-agw",
+            "type": "String"
+        },
+        "disks_webapp01_vmss_webapp01_vmss_0_OsDisk_1_2eb2d6d9732c4cceb0a440ba7ddee1d1_externalid": {
+            "defaultValue": "/subscriptions/c33d8679-7056-4f75-9faa-7b3b479ecf36/resourceGroups/webapp01/providers/Microsoft.Compute/disks/webapp01-vmss_webapp01-vmss_0_OsDisk_1_2eb2d6d9732c4cceb0a440ba7ddee1d1",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "apiVersion": "2024-11-01",
+            "name": "[parameters('virtualMachineScaleSets_webapp01_vmss_name')]",
+            "location": "eastus",
+            "sku": {
+                "name": "Standard_DC1ds_v3",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "singlePlacementGroup": false,
+                "orchestrationMode": "Uniform",
+                "upgradePolicy": {
+                    "mode": "Manual"
+                },
+                "scaleInPolicy": {
+                    "rules": [
+                        "Default"
+                    ],
+                    "forceDeletion": false
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "webapp01-",
+                        "adminUsername": "azureuser",
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": true,
+                            "ssh": {
+                                "publicKeys": [
+                                    {
+                                        "path": "/home/azureuser/.ssh/authorized_keys",
+                                        "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7/WsIE8QPk4+qPMT3rEZtbv7GPPm3vhojbFNfeKg8nSaRhJ7sQkGYi8Yb5EEIOtkUBnW45FBCYBu4hYaW04kY587EVTd4VWqWs9V9OIXYHxpXV3rL0xRlcsAf8azI2c7eLbMXdIQhXLVx72Jjj0Zw/c41KBXRxXci/n+CFGim6qn+EAZvFCMmTtA7p2ugbcR4yUYiDjJ36qTu/eX5McNNcung8Pu/yuP/OEXoU7Ee6sAO50VxQl96FTKUIEdIWPSwPipjznOuu1M88mDCHgpPwBKFQzKigvS7BAfw+8AhgI/r3s08lbPRyEz8ZcSbb/FdwyeeeirokAJbmw5ARRJwgU0xBqMbq2UFx12QsMyu6nIkJWQLAKQkc0GgqTd7xtzLPcMfY2lX6ySC4NgRlGMuUQUMOXB3mOgjXDlY/y864rGfRtkKS9sIgxDFn6UWsc0Q/0LSv3TV6dW4mzUMspVso7T4AsF7E4KD0rngOQqX5Nsm7/8Vg4AAnInIAGGyzBU= generated-by-azure"
+                                    }
+                                ]
+                            },
+                            "provisionVMAgent": true
+                        },
+                        "secrets": [],
+                        "allowExtensionOperations": true,
+                        "requireGuestProvisionSignal": true
+                    },
+                    "storageProfile": {
+                        "osDisk": {
+                            "osType": "Linux",
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            },
+                            "diskSizeGB": 30
+                        },
+                        "imageReference": {
+                            "publisher": "canonical",
+                            "offer": "ubuntu-24_04-lts",
+                            "sku": "server",
+                            "version": "latest"
+                        },
+                        "diskControllerType": "SCSI"
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "WEBAPPVNET-nic01",
+                                "properties": {
+                                    "primary": true,
+                                    "enableAcceleratedNetworking": true,
+                                    "disableTcpStateTracking": false,
+                                    "networkSecurityGroup": {
+                                        "id": "[parameters('networkSecurityGroups_basicNsgWEBAPPVNET_nic01_externalid')]"
+                                    },
+                                    "dnsSettings": {
+                                        "dnsServers": []
+                                    },
+                                    "enableIPForwarding": false,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "WEBAPPVNET-nic01-defaultIpConfiguration",
+                                            "properties": {
+                                                "primary": true,
+                                                "subnet": {
+                                                    "id": "[concat(parameters('virtualNetworks_WEBAPPVNET_externalid'), '/subnets/Bckndsubnet')]"
+                                                },
+                                                "privateIPAddressVersion": "IPv4",
+                                                "applicationGatewayBackendAddressPools": [
+                                                    {
+                                                        "id": "[concat(parameters('applicationGateways_webapp01_agw_externalid'), '/backendAddressPools/webapp01')]"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "diagnosticsProfile": {
+                        "bootDiagnostics": {
+                            "enabled": true
+                        }
+                    },
+                    "extensionProfile": {
+                        "extensions": [
+                            {
+                                "name": "HealthExtension",
+                                "properties": {
+                                    "autoUpgradeMinorVersion": true,
+                                    "enableAutomaticUpgrade": true,
+                                    "publisher": "Microsoft.ManagedServices",
+                                    "type": "ApplicationHealthLinux",
+                                    "typeHandlerVersion": "1.0",
+                                    "settings": {
+                                        "protocol": "tcp",
+                                        "port": 8080,
+                                        "intervalInSeconds": 5,
+                                        "numberOfProbes": 1
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "overprovision": false,
+                "doNotRunExtensionsOnOverprovisionedVMs": false,
+                "platformFaultDomainCount": 1,
+                "automaticRepairsPolicy": {
+                    "enabled": false,
+                    "gracePeriod": "PT10M",
+                    "repairAction": "Replace"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+            "apiVersion": "2024-11-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_webapp01_vmss_name'), '/HealthExtension')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_webapp01_vmss_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "autoUpgradeMinorVersion": true,
+                "enableAutomaticUpgrade": true,
+                "publisher": "Microsoft.ManagedServices",
+                "type": "ApplicationHealthLinux",
+                "typeHandlerVersion": "1.0",
+                "settings": {
+                    "protocol": "tcp",
+                    "port": 8080,
+                    "intervalInSeconds": 5,
+                    "numberOfProbes": 1
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
+            "apiVersion": "2024-11-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_webapp01_vmss_name'), '/0')]",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_webapp01_vmss_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_DC1ds_v3",
+                "tier": "Standard"
+            },
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "networkProfileConfiguration": {
+                    "networkInterfaceConfigurations": [
+                        {
+                            "name": "WEBAPPVNET-nic01",
+                            "properties": {
+                                "primary": true,
+                                "enableAcceleratedNetworking": true,
+                                "disableTcpStateTracking": false,
+                                "networkSecurityGroup": {
+                                    "id": "[parameters('networkSecurityGroups_basicNsgWEBAPPVNET_nic01_externalid')]"
+                                },
+                                "dnsSettings": {
+                                    "dnsServers": []
+                                },
+                                "enableIPForwarding": false,
+                                "ipConfigurations": [
+                                    {
+                                        "name": "WEBAPPVNET-nic01-defaultIpConfiguration",
+                                        "properties": {
+                                            "primary": true,
+                                            "subnet": {
+                                                "id": "[concat(parameters('virtualNetworks_WEBAPPVNET_externalid'), '/subnets/Bckndsubnet')]"
+                                            },
+                                            "privateIPAddressVersion": "IPv4",
+                                            "applicationGatewayBackendAddressPools": [
+                                                {
+                                                    "id": "[concat(parameters('applicationGateways_webapp01_agw_externalid'), '/backendAddressPools/webapp01')]"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_DC1ds_v3"
+                },
+                "resilientVMDeletionStatus": "Disabled",
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "canonical",
+                        "offer": "ubuntu-24_04-lts",
+                        "sku": "server",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "webapp01-vmss_webapp01-vmss_0_OsDisk_1_2eb2d6d9732c4cceb0a440ba7ddee1d1",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_webapp01_vmss_webapp01_vmss_0_OsDisk_1_2eb2d6d9732c4cceb0a440ba7ddee1d1_externalid')]"
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": [],
+                    "diskControllerType": "SCSI"
+                },
+                "osProfile": {
+                    "computerName": "webapp01-000000",
+                    "adminUsername": "azureuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/azureuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7/WsIE8QPk4+qPMT3rEZtbv7GPPm3vhojbFNfeKg8nSaRhJ7sQkGYi8Yb5EEIOtkUBnW45FBCYBu4hYaW04kY587EVTd4VWqWs9V9OIXYHxpXV3rL0xRlcsAf8azI2c7eLbMXdIQhXLVx72Jjj0Zw/c41KBXRxXci/n+CFGim6qn+EAZvFCMmTtA7p2ugbcR4yUYiDjJ36qTu/eX5McNNcung8Pu/yuP/OEXoU7Ee6sAO50VxQl96FTKUIEdIWPSwPipjznOuu1M88mDCHgpPwBKFQzKigvS7BAfw+8AhgI/r3s08lbPRyEz8ZcSbb/FdwyeeeirokAJbmw5ARRJwgU0xBqMbq2UFx12QsMyu6nIkJWQLAKQkc0GgqTd7xtzLPcMfY2lX6ySC4NgRlGMuUQUMOXB3mOgjXDlY/y864rGfRtkKS9sIgxDFn6UWsc0Q/0LSv3TV6dW4mzUMspVso7T4AsF7E4KD0rngOQqX5Nsm7/8Vg4AAnInIAGGyzBU= generated-by-azure"
+                                }
+                            ]
+                        },
+                        "provisionVMAgent": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', parameters('virtualMachineScaleSets_webapp01_vmss_name'), '0'), '/networkInterfaces/WEBAPPVNET-nic01')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines/extensions",
+            "apiVersion": "2024-11-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_webapp01_vmss_name'), '/0/HealthExtension')]",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', parameters('virtualMachineScaleSets_webapp01_vmss_name'), '0')]",
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_webapp01_vmss_name'))]"
+            ],
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "enableAutomaticUpgrade": true,
+                "publisher": "Microsoft.ManagedServices",
+                "type": "ApplicationHealthLinux",
+                "typeHandlerVersion": "1.0",
+                "settings": {
+                    "protocol": "tcp",
+                    "port": 8080,
+                    "intervalInSeconds": 5,
+                    "numberOfProbes": 1
+                }
+            }
+        }
+    ]
+}
