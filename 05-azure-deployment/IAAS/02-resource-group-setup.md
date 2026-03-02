@@ -12,9 +12,9 @@ A Resource Group in Azure acts as a logical container for related resources such
 `Webapp01`
 
 **Region:**
-Canada Central
+East US
 
-All infrastructure components for this deployment—including virtual machines, networking resources (VNet and subnets), Application Gateway, network security groups, and associated storage—are deployed within this resource group.
+All infrastructure components for this deployment including virtual machines, networking resources (VNet and subnets), Application Gateway, network security groups, and associated storage—are deployed within this resource group.
 
 This structure ensures:
 
