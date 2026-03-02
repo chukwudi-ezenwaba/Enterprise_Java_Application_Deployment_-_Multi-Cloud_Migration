@@ -33,13 +33,11 @@ Access control is enforced using:
 
 This segmentation ensures that both the frontend and backend services are not directly exposed to the public internet.
 
----
-
-## 3. Load Balancing Layer
+### 3. Load Balancing Layer
 
 Instead of NGINX, Azure-native load balancing services are used.
 
-### Azure Application Gateway 
+### 3.1 Azure Application Gateway 
 
 **Azure Application Gateway** is deployed as the primary HTTP load balancer.
 
@@ -53,7 +51,7 @@ It provides:
 
 Application Gateway distributes incoming user traffic across multiple Tomcat instances deployed in a scale set.
 
-## Auto Scaling – Virtual Machine Scale Sets
+## A3.2 uto Scaling – Virtual Machine Scale Sets
 
 Elastic scalability is achieved using **Azure Virtual Machine Scale Sets**.
 
