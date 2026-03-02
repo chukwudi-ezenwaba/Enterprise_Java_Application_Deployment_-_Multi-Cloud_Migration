@@ -15,11 +15,11 @@ This approach ensures repeatable, consistent, Infrastructure-as-Code–aligned d
 
 ---
 
-## MySQL Azure Virtual Machine Configuration
+### MySQL Azure Virtual Machine Configuration
 
 The MySQL virtual machine is dedicated to database services and is provisioned using a custom initialization script.
 
-## Automation Script Responsibilities
+## #Automation Script Responsibilities
 
 The MySQL deployment script performs the following:
 
@@ -37,49 +37,21 @@ This ensures the database server is fully configured during initial provisioning
 
 ## Instance Specifications
 
-**Region:**
-Canada Central
-
-**Virtual Machine Name:**
-`webappdb01`
-
-**Image:**
-Ubuntu Server 22.04 LTS (or Azure-supported Linux distribution)
-
-**VM Size:**
-Standard D2s_v3 (cost-optimized for lab environment)
-
-**Authentication type:**
-SSH public key
-
-**SSH public key source:**
-Generate new key pair
-
-**SSH Key Type:**
-RSA SSH Format
-
-**Public inbound port rules:**
-Allow selected ports
-
-**Select inbound ports:**
-SSH (22)
-
-**OS disk size:**
-30 GiB
-
-**OS disk type:**
-Premium SSD
-
-**Key management:**
-Platform-managed key
-
-**Virtual Network:**
-`Webappvnet`
-
-**Subnet:**
-`bckndsubnet`
-
-**Network Security Group:**
+* **Region:** East US
+* **Virtual Machine Name:** `webappdb01`
+* **Image:** Ubuntu Server 22.04 LTS
+* **VM Size:** Standard D2s_v3 (cost-optimized for lab environment)
+* **Authentication type:** SSH public key
+* **SSH public key source:** Generate new key pair
+* **SSH Key Type:** RSA SSH Format
+* **Public inbound port rules:** Allow selected ports
+* **Select inbound ports:** SSH (22)
+* **OS disk size:** 30 GiB
+* **OS disk type:** Premium SSD
+* **Key management:** Platform-managed key
+* **Virtual Network:** `Webappvnet`
+* **Subnet:** `bckndsubnet`
+* **Network Security Group:**
 Backend NSG allowing:
 
 * TCP 3306 from `Webappsubnet`
